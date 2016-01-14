@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+
+<html>	
+	
+	<head>
+		
+		<!-- Title -->
+		<title>Tic Tac Toe!</title>
+
+		<!-- Import font family -->
+		<link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+		
+		<!-- CSS of webpage -->
+		<style type="text/css">
+			html, body {font-family: 'Gloria Hallelujah', 'Helvetica Neue'; text-align:center; background-color:#e1e1e1;}
+			h1 {color:white;}
+			p {color:white;}
+		</style>
+
+		<!-- Game code begins -->
+		<script type="text/javascript">
+		
+		//Declares all global variables
+		var draw;
+		var content;
+		var combinations;
+		var turn = 0;
+		var Canvas;
+		var c;
+		var box;
+		var filled = 0;
+		var win = false;
+		var O = new Image();
+		O.src = "O.png";
+		
+		//Creates arrays
+		window.onload = function(){
+			
+			draw = new Array();
+			content = new Array();
+			combinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+			for(var i = 0; i <= 8; i++){
+				draw[i] = false;
+				content[i]='';
+			}
+			
+		}
+		
+		//Function for game
+		function boxClicked(boxNum){
+			
+			//Creates canvases
+			Canvas = "canvas" + boxNum;
+			c = document.getElementById(Canvas);
+			box = c.getContext("2d");
+			
+			if(!draw[boxNum-1]){
+				
+				if(turn%2 == 0){ //Moves for X player
+					box.beginPath();
+					box.moveTo(10,10);
+					box.lineTo(190,190);
+					box.moveTo(190,10);
+					box.lineTo(10,190);
+					box.lineWidth = 15;
+					box.strokeStyle = 'e1e1e1';
+					box.stroke();
+					box.closePath();					
+					content[boxNum-1] = 'X';
+				} else{ //Moves for O player
+					box.beginPath();
+					box.arc(100,100,90,0,Math.PI*2,true);
+					box.fillStyle = '#e1e1e1';
+					box.fill();
+					box.closePath();
+					content[boxNum-1] = 'O';
+				}
+				
+				//Next move
+				turn++;
+				draw[boxNum-1] = true;
+				filled++;
+				checkWin(content[boxNum-1]); //Checks to see if a player has created one of the possible winning combinations
+				
+			
+			} else{ //Notifies player if space is taken
+				alert("That space is already taken!");
+			}
+
+		}
+
+		function checkWin(player){ //Checks to see if a player has created one of the possible winning combinations
+			
+			for(var i = 0; i < combinations.length; i++){
+			
+				//If won
+				if(content[combinations[i][0]] == player && content[combinations[i][1]] == player && content[combinations[i][2]] == player){
+					alert(player + " wins!"); //Alerts the player who has won
+					win = true; //Sets win to true
+					restart(); //Restarts game
+				}
+				
+			}
+			
+			if(filled == 9 && win == false){ //If all the boxes are filled, however, no one has one
+				alert("Tie game!"); //Alerts players that it is a tie
+				restart(); //Restarts game
+			}
+				
+
+		}
+
+		function restart(){ //Restarts game
+				location.reload(true);
+		}
+
+		</script>
+	
+	</head>
+	
+	<body>
+	
+		<!-- Title -->
+		<h1>TIC-TAC-TOE!</h1>
+	
+		<!-- Creates canvases -->
+		<canvas id = "canvas1"  width="200" height="200" style="background-color:white;" onclick="boxClicked(1)"></canvas>
+		<canvas id = "canvas2"  width="200" height="200" style="background-color:white;" onclick="boxClicked(2)"></canvas>
+		<canvas id = "canvas3"  width="200" height="200" style="background-color:white;" onclick="boxClicked(3)"></canvas><br/>
+		<canvas id = "canvas4"  width="200" height="200" style="background-color:white;" onclick="boxClicked(4)"></canvas>
+		<canvas id = "canvas5"  width="200" height="200" style="background-color:white;" onclick="boxClicked(5)"></canvas>
+		<canvas id = "canvas6"  width="200" height="200" style="background-color:white;" onclick="boxClicked(6)"></canvas><br/>
+		<canvas id = "canvas7"  width="200" height="200" style="background-color:white;" onclick="boxClicked(7)"></canvas>
+		<canvas id = "canvas8"  width="200" height="200" style="background-color:white;" onclick="boxClicked(8)"></canvas>
+		<canvas id = "canvas9"  width="200" height="200" style="background-color:white;" onclick="boxClicked(9)"></canvas>
+	
+		<!-- Credits -->
+		<p>By Toby Thomas</br>ICS3U | Ms. Shaw</br>12.03.12</p>
+		
+	</body>
+	
+</html>
